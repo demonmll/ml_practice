@@ -43,5 +43,14 @@ class KNNClassifier:
         return votes.most_common(1)[0][0]
 
 
+    def score(self, X_test, y_test):
+        '''根据测试数据集 X_test 和 y_test 确定当前模型的准确度'''
+
+        y_predict = self.predict(X_test)
+        return accuracy_score(y_test, y_predict)
+
+
+
+
     def __repr__(self):
         return  "knn(k=%d)" %self.k
