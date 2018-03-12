@@ -1,6 +1,7 @@
 import numpy as np
 from math import sqrt
 from collections import Counter
+from .metrics import accuracy_score
 
 class KNNClassifier:
 
@@ -48,7 +49,6 @@ class KNNClassifier:
 
         y_predict = self.predict(X_test)
         return accuracy_score(y_test, y_predict)
-
 
 
 
