@@ -39,6 +39,49 @@ class LinearRegression:
 
 
 
+    def fit_gd(self, X_train, y_train , eta=0.01, n_iters=1e4):
+        '''根据训练集，使用梯度下降法训练Linear Regression模型'''
+
+        def J(theta, X_b, y):  # x_b已经增加了全为1的矩阵
+            try:
+                return np.sum((y - X_b.dot(theta)) ** 2) / len(X_b)
+            except:
+                return float('inf')  # 若超出界限则返回一个浮点数的最大值
+
+        def dJ(theta, X_b, y):
+            # res = np.empty(len(theta))
+            # res[0] = np.sum(X_b.dot(theta) - y)
+            # for i in range(1, len(theta)):
+            #     res[i] = (X_b.dot(theta) - y).dot(X_b[:, i])
+            # return res * 2 / len(X_b)
+            return X_b.T.dot(X_b.dot(theta) - y) * 2.0 / len(y)
+
+        def gradient_descent(X_b, y, initial_theta, eta, n_iters=1e4, epsilon=1e-10):
+            theta = initial_theta
+            i_iter = 0
+
+            while i_iter < n_iters:
+                gradient = dJ(theta, X_b, y)
+                last_theta = theta
+                theta = theta - eta * gradient
+
+                if (abs(J(theta, X_b, y) - J(last_theta, X_b, y)) < epsilon):
+                    break
+
+                i_iter += 1
+
+            return theta
+
+        X_b = np.hstack([np.ones((len(X_train), 1)), X_train]) #构造一列全为1的矩阵
+        initial_theta= np.zeros(X_b.shape[1])
+        self._theta  = gradient_descent(X_b, y_train, initial_theta, eta, n_iters)
+
+        self.coef_ = self._theta[1:]
+        self.interception_ = self._theta[0]
+
+        return self
+
+
 
 
     def __repr__(self):

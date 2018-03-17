@@ -97,5 +97,7 @@ class SimpleLinearRegression2:
         return r2_score(y_test, y_predict)
 
 
+
+
     def __repr__(self):
         return "SimpleLinearRegression2()"
